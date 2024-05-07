@@ -7,25 +7,26 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Checkout gh-pages branch
-        run: |
-          git checkout origin/gh-pages
-          git pull --rebase origin main [1]
-
-      - name: Build project
-        run: npm run build
-
-      - name: Move dist files
-        run: mv -f ./dist/* ./ [2]
-
-      - name: Commit changes
-        run: |
-          git add .
-          git commit -m "Deploy to GitHub Pages"
-
-      - name: Push changes
-        run: git push origin gh-pages [3]
+    - uses: actions/checkout@v3
+    
+    - name: Checkout gh-pages branch
+      run: |
+        git fetch --all --prune
+        git checkout gh-pages
+        git pull --rebase origin main [1]
+        
+    - name: Build project
+      run: npm run build
+      
+    - name: Move dist files
+      run: mv ./dist ./ [2]
+      
+    - name: Commit changes
+      run: |
+        git add .
+        git commit -m "Deploy to GitHub Pages"
+        
+    - name: Push changes
+      run: git push origin gh-pages [3]
