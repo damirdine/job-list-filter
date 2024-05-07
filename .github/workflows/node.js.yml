@@ -28,8 +28,4 @@ jobs:
       - run: npm ci
       - run: npm test --if-present
       - run: npm run build --if-present
-      - name: Change to dist directory
-        working-directory: ./dist
-        run: |
-          pwd
-          ls -la
+      - run: cp -f ./dist .
