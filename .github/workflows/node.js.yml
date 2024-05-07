@@ -28,4 +28,4 @@ jobs:
       - run: npm ci
       - run: npm test --if-present
       - run: npm run build --if-present
-      - run: cp -f ./dist .
+      - run: cp -r -f ./dist .
