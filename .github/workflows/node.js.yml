@@ -15,7 +15,7 @@ jobs:
         run: |
           git fetch --all --prune
           git checkout gh-pages
-          git rebase --abort -f
+          git rebase -f
           git pull --rebase origin main
 
       - name: Build project
