@@ -13,16 +13,15 @@ jobs:
 
       - name: Checkout gh-pages branch
         run: |
-          git fetch --all --prune
+          git config --global pull.rebase true
           git checkout gh-pages
-          git rebase -f
-          git pull --rebase origin main
+          git pull origin main
 
       - name: Build project
         run: npm run build
 
       - name: Move dist files
-        run: mv ./dist ./
+        run: mv -f ./dist/* ./
 
       - name: Commit changes
         run: |
