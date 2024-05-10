@@ -1,7 +1,7 @@
 import data from "./../data.json";
 
 import heroImg from "./assets/images/bg-header-desktop.svg";
-// import heroMobileImg from "./assets/images/bg-header-mobile.svg";
+import heroMobileImg from "./assets/images/bg-header-mobile.svg";
 
 type JobData = {
   id: number;
@@ -23,11 +23,7 @@ const jobs: JobData[] = data;
 function App() {
   return (
     <>
-      <header
-        className={`bg-[url('${getImgUrl(
-          "./assets/images/bg-header-desktop.svg"
-        )}')]`}
-      ></header>
+      <img src={heroMobileImg} alt="" className="bg-primary w-full md:hidden" />
       <img src={heroImg} alt="" className="bg-primary w-full hidden md:block" />
       <main className="flex flex-col m-14 gap-2">
         {jobs.map((job) => (
@@ -49,32 +45,34 @@ function JobCard({ job }: JobCardProps) {
   return (
     <>
       <div
-        className={`bg-white p-5 rounded flex flex-col justify-between md:items-center mb-10 gap-4 shadow-lg ${
+        className={`bg-white p-5 rounded flex flex-col justify-between md:justify-between md:items-center md:flex-row mb-10 gap-4 shadow-lg ${
           job.featured && "border-l-4 border-l-primary"
-        } md:bg-red-500 relative`}
+        } relative`}
       >
-        <img
-          src={logo}
-          alt={job.company}
-          className="w-full size-fit max-w-12 md:max-w-16 absolute -top-6 "
-        />
-        <div className="flex flex-col gap-1 mt-4 md:mt-0">
-          <p className="font-bold text-primary text-base flex gap-3">
-            {job.company}
-            <Badges isNew={job.new} featured={job.featured} />
-            {/* {job.new || job.featured && } */}
-          </p>
-          <p className="font-bold text-lg">{job.position}</p>
-          <div>
-            {details.map((detail) => (
-              <span className="text-neutral-dark font-medium mr-3">
-                {detail}
-              </span>
-            ))}
+        <div className="md:flex">
+          <img
+            src={logo}
+            alt={job.company}
+            className="w-full size-fit max-w-12 md:max-w-20 absolute md:static -top-6  md:mr-5"
+          />
+          <div className="flex flex-col gap-1 mt-4 md:mt-0">
+            <p className="font-bold text-primary text-base flex gap-3">
+              {job.company}
+              <Badges isNew={job.new} featured={job.featured} />
+              {/* {job.new || job.featured && } */}
+            </p>
+            <p className="font-bold text-lg">{job.position}</p>
+            <div>
+              {details.map((detail) => (
+                <span className="text-neutral-dark font-medium mr-3">
+                  {detail}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         <hr className="md:hidden" />
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap md:justify-end gap-3">
           {tags.map((tag) => (
             <span className="bg-neutral-light-bg text-primary p-2 font-bold  rounded">
               {tag}
