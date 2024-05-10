@@ -25,7 +25,7 @@ function App() {
     <>
       <img src={heroMobileImg} alt="" className="bg-primary w-full md:hidden" />
       <img src={heroImg} alt="" className="bg-primary w-full hidden md:block" />
-      <main className="flex flex-col m-14 gap-2">
+      <main className="flex flex-col mx-7 my-12 md:mx-14 gap-2">
         {jobs.map((job) => (
           <JobCard key={job.id} job={job} />
         ))}
