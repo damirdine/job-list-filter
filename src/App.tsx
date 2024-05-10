@@ -53,7 +53,7 @@ function JobCard({ job }: JobCardProps) {
           <img
             src={logo}
             alt={job.company}
-            className="w-full size-fit max-w-12 md:max-w-20 absolute md:static -top-6  md:mr-5"
+            className="w-full size-fit max-w-12 md:max-w-20 absolute md:static -top-10 md:top-0 md:mr-5"
           />
           <div className="flex flex-col gap-1 mt-4 md:mt-0">
             <p className="font-bold text-primary text-base flex gap-3">
