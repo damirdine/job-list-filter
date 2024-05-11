@@ -80,7 +80,7 @@ function App() {
               </span>
               <button
                 onClick={() => removeFilter(filter)}
-                className="bg-primary px-3 w-full rounded-r"
+                className="bg-primary px-3 w-full rounded-r hover:bg-neutral-very-dark active:bg-neutral-very-dark"
               >
                 <img
                   src={getImgUrl("./assets/images/icon-remove.svg")}
@@ -91,7 +91,7 @@ function App() {
           ))}
           <button
             onClick={() => clearFilter()}
-            className="text-primary font-bold hover:underline active:text-neutral-very-dark"
+            className="text-primary font-bold hover:underline active:underline"
           >
             Clear
           </button>
@@ -134,7 +134,9 @@ function JobCard({ job, handleClick }: JobCardProps) {
               {job.company}
               <Badges isNew={job.new} featured={job.featured} />
             </p>
-            <p className="font-bold text-lg">{job.position}</p>
+            <p className="font-bold text-lg hover:text-primary active:text-primary">
+              {job.position}
+            </p>
             <div>
               {details.map((detail) => (
                 <span
@@ -150,13 +152,13 @@ function JobCard({ job, handleClick }: JobCardProps) {
         <hr className="md:hidden" />
         <div className="flex flex-wrap md:justify-end gap-3">
           {tags.map((tag) => (
-            <span
+            <button
               key={tag}
               onClick={() => handleClick(tag)}
-              className="bg-neutral-light-filter text-primary p-2 font-bold  rounded"
+              className="bg-neutral-light-filter text-primary p-2 font-bold rounded hover:text-white hover:bg-primary active:text-white active:bg-primary"
             >
               {tag}
-            </span>
+            </button>
           ))}
         </div>
       </div>
