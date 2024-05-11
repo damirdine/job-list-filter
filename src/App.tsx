@@ -1,3 +1,4 @@
+import { useState } from "react";
 import data from "./../data.json";
 
 import heroImg from "./assets/images/bg-header-desktop.svg";
@@ -18,16 +19,87 @@ type JobData = {
   languages: string[];
   tools: string[];
 };
-const jobs: JobData[] = data;
 
 function App() {
+  const [jobs, setJobs] = useState<JobData[]>(data);
+  const [filters, setFilters] = useState<string[]>([]);
+
+  const addFilter = (tag: string) => {
+    if (!filters.includes(tag)) {
+      const newFilters = [...filters, tag];
+      setFilters(newFilters);
+      setJobs(
+        data.filter((job) => {
+          const tags = [job.role, job.level, ...job.languages, ...job.tools];
+          return tags.some((v) => newFilters.includes(v));
+        })
+      );
+    }
+  };
+  const removeFilter = (tag: string) => {
+    const newFilters = filters.filter((el) => el !== tag);
+    setFilters(newFilters);
+    setJobs(
+      newFilters.length > 0
+        ? data.filter((job) => {
+            const tags = [job.role, job.level, ...job.languages, ...job.tools];
+            return tags.some((v) => newFilters.includes(v));
+          })
+        : data
+    );
+  };
+  const clearFilter = () => {
+    setFilters([]);
+    setJobs(data);
+  };
   return (
     <>
-      <img src={heroMobileImg} alt="" className="bg-primary w-full md:hidden" />
-      <img src={heroImg} alt="" className="bg-primary w-full hidden md:block" />
+      <header className={`relative ${filters.length > 0 && "mb-24"}`}>
+        <img
+          src={heroMobileImg}
+          alt=""
+          className="bg-primary w-full md:hidden"
+        />
+        <img
+          src={heroImg}
+          alt=""
+          className="bg-primary w-full hidden md:block"
+        />
+        <div
+          className={`bg-white p-5 rounded flex mx-7 md:mx-14 flex-wrap mb-10 gap-4 shadow-lg absolute -bottom-[80px] ${
+            filters.length == 0 && "hidden"
+          }`}
+        >
+          {filters.map((filter) => (
+            <div className="flex">
+              <span
+                key={filter}
+                className="bg-neutral-light-filter text-primary font-bold p-2 rounded-l"
+              >
+                {filter}
+              </span>
+              <button
+                onClick={() => removeFilter(filter)}
+                className="bg-primary px-3 w-full rounded-r"
+              >
+                <img
+                  src={getImgUrl("./assets/images/icon-remove.svg")}
+                  alt="remove icon"
+                />
+              </button>
+            </div>
+          ))}
+          <button
+            onClick={() => clearFilter()}
+            className="text-primary font-bold hover:underline active:text-neutral-very-dark"
+          >
+            Clear
+          </button>
+        </div>
+      </header>
       <main className="flex flex-col mx-7 my-12 md:mx-14 gap-2">
         {jobs.map((job) => (
-          <JobCard key={job.id} job={job} />
+          <JobCard key={job.id} job={job} handleClick={addFilter} />
         ))}
       </main>
     </>
@@ -36,12 +108,14 @@ function App() {
 
 type JobCardProps = {
   job: JobData;
+  handleClick: (tag: string) => void;
 };
 
-function JobCard({ job }: JobCardProps) {
+function JobCard({ job, handleClick }: JobCardProps) {
   const logo = getImgUrl(job.logo);
   const tags = [job.role, job.level, ...job.languages, ...job.tools];
   const details = [job.postedAt, job.contract, job.location];
+
   return (
     <>
       <div
@@ -59,12 +133,14 @@ function JobCard({ job }: JobCardProps) {
             <p className="font-bold text-primary text-base flex gap-3">
               {job.company}
               <Badges isNew={job.new} featured={job.featured} />
-              {/* {job.new || job.featured && } */}
             </p>
             <p className="font-bold text-lg">{job.position}</p>
             <div>
               {details.map((detail) => (
-                <span className="text-neutral-dark font-medium mr-3">
+                <span
+                  key={detail}
+                  className="text-neutral-dark font-medium mr-3"
+                >
                   {detail}
                 </span>
               ))}
@@ -74,7 +150,11 @@ function JobCard({ job }: JobCardProps) {
         <hr className="md:hidden" />
         <div className="flex flex-wrap md:justify-end gap-3">
           {tags.map((tag) => (
-            <span className="bg-neutral-light-bg text-primary p-2 font-bold  rounded">
+            <span
+              key={tag}
+              onClick={() => handleClick(tag)}
+              className="bg-neutral-light-filter text-primary p-2 font-bold  rounded"
+            >
               {tag}
             </span>
           ))}
