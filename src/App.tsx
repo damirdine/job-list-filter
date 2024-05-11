@@ -91,7 +91,7 @@ function App() {
           ))}
           <button
             onClick={() => clearFilter()}
-            className="text-primary font-bold hover:underline active:underline"
+            className="text-neutral-dark font-bold hover:underline hover:text-primary active:underline active:text-primary"
           >
             Clear
           </button>
