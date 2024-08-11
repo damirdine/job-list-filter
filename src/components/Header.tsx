@@ -1,20 +1,13 @@
-import { getImgUrl } from "../App";
+import { getImgUrl } from "../utils";
+import { useJobContext } from "../hooks/context/JobContext";
 
 type HeaderdProps = {
-  filters: string[];
-  removeFilter: (filter: string) => void;
-  clearFilter: () => void;
   heroMobileImg: string;
   heroImg: string;
 };
 
-export function Header({
-  filters,
-  removeFilter,
-  clearFilter,
-  heroMobileImg,
-  heroImg,
-}: HeaderdProps) {
+export function Header({ heroMobileImg, heroImg }: HeaderdProps) {
+  const { filters, clearFilter, removeFilter } = useJobContext();
   return (
     <header className={`relative ${filters.length > 0 && "mb-24"}`}>
       <img src={heroMobileImg} alt="" className="bg-primary w-full md:hidden" />
@@ -24,12 +17,9 @@ export function Header({
           filters.length == 0 && "hidden"
         }`}
       >
-        {filters.map((filter) => (
-          <div className="flex">
-            <span
-              key={filter}
-              className="bg-neutral-light-filter text-primary font-bold p-2 rounded-l"
-            >
+        {filters.map((filter, index) => (
+          <div className="flex" key={index}>
+            <span className="bg-neutral-light-filter text-primary font-bold p-2 rounded-l">
               {filter}
             </span>
             <button

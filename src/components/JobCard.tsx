@@ -1,11 +1,12 @@
-import { JobData, getImgUrl } from "../App";
+import { getImgUrl } from "../utils";
+import { JobData } from "../types";
 import { Badge } from "./ui/Badge";
+import { useJobContext } from "../hooks/context/JobContext";
 
 type JobCardProps = {
   job: JobData;
-  handleClick: (tag: string) => void;
 };
-export function JobCard({ job, handleClick }: JobCardProps) {
+export function JobCard({ job }: JobCardProps) {
   const logo = getImgUrl(job.logo);
   const tags = [job.role, job.level, ...job.languages, ...job.tools];
   const details = [job.postedAt, job.contract, job.location];
@@ -44,25 +45,20 @@ export function JobCard({ job, handleClick }: JobCardProps) {
           </div>
         </div>
         <hr className="md:hidden" />
-        <Tags tags={tags} handleClick={handleClick} />
+        <Tags tags={tags} />
       </div>
     </>
   );
 }
 
-function Tags({
-  tags,
-  handleClick,
-}: {
-  tags: string[];
-  handleClick: (tag: string) => void;
-}) {
+function Tags({ tags }: { tags: string[] }) {
+  const { addFilter } = useJobContext();
   return (
     <div className="flex flex-wrap md:justify-end gap-3">
       {tags.map((tag) => (
         <button
           key={tag}
-          onClick={() => handleClick(tag)}
+          onClick={() => addFilter(tag)}
           className="bg-neutral-light-filter text-primary p-2 font-bold rounded hover:text-white hover:bg-primary active:text-white active:bg-primary"
         >
           {tag}
