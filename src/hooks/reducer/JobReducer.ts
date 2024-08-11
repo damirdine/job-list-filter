@@ -26,7 +26,7 @@ export const clearFilter = (): Action => ({
 const jobReducer = (state: JobState, action: Action): JobState => {
   switch (action.type) {
     case "ADD_FILTER": {
-      const newFilters = [...state.filters, action.payload];
+      const newFilters = [...new Set([...state.filters, action.payload])];
       return {
         ...state,
         filters: newFilters,
