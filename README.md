@@ -5,7 +5,7 @@ Il s'agit d'une application frontend qui permet de filtrer dynamiquement des off
 
 ## Aperçu
 
-![Aperçu du projet](https://damirdine.github.io/job-list-filter/)
+[Aperçu du projet](https://damirdine.github.io/job-list-filter/)
 
 Les utilisateurs peuvent :
 - Voir toutes les offres d'emploi disponibles.
